@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "hosting-educrm"
+  },
+  "targets": {
+    "hosting-educrm": {
+      "hosting": {
+        "frontend": [
+          "hosting-educrm"
+        ]
+      }
+    }
   }
 }
