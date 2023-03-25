@@ -1,0 +1,2 @@
+<button (click)="addLevel()">Add Level</button>
+<p *ngFor="let level of getAllLevels() | async">{{level.levelNO}}</p>

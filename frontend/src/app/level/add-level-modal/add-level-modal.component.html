@@ -1,0 +1,12 @@
+<h2 mat-dialog-title> Add new level </h2>
+<div mat-dialog-content>
+    <p>Name of the new level</p>
+    <mat-form-field appearance="fill">
+        <mat-label>Level Name</mat-label>
+        <input matInput [(ngModel)]="inputLevelName">
+    </mat-form-field>
+    <div mat-dialog-actions>
+        <button mat-button (click)="onCancel()">Cancel</button>
+        <button mat-button color="primary" (click)="onOkay()">Okay</button>
+    </div>
+</div>

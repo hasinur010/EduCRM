@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -34,13 +35,17 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LevelComponent } from './level/level.component';
+import { AddLevelModalComponent } from './level/add-level-modal/add-level-modal.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    LevelComponent,
+    AddLevelModalComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +61,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatStepperModule,
     MatSelectModule,
     MatGridListModule,
+    MatDialogModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
