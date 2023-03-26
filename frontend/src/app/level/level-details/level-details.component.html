@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>{{level.levelNO}}</h2>
+<mat-dialog-content>
+    <mat-form-field appearance="fill">
+        <mat-label>Select Batch</mat-label>
+        <mat-select (selectionChange)="onBatchSelectionChange($event)">
+          <mat-option *ngFor="let batch of level.batches" [value]="batch">
+            {{batch}}
+          </mat-option>
+          <mat-option value="createNew">
+            <mat-icon>add</mat-icon>  Batch
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-tab-group>
+        <mat-tab label="Resources"> 
+            Upcoming...
+        </mat-tab>
+        <mat-tab label="Exam"> 
+            Upcoming... 
+        </mat-tab>
+        <mat-tab label="Students"> 
+            Upcoming... 
+        </mat-tab>
+    </mat-tab-group>
+</mat-dialog-content>
+<mat-dialog-actions align = "end">
+    <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

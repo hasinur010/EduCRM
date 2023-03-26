@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { Level } from '../models/Level';
 import { LevelService } from '../services/level.service';
+import { LevelDetailsComponent } from './level-details/level-details.component';
 
 @Component({
   selector: 'app-level',
@@ -31,6 +32,14 @@ export class LevelComponent implements OnInit {
 
   getAllLevels(): Observable<Level[]> {
     return this.levelService.getAll()
+  }
+
+  openDetailsFor(level: Level){
+    console.log("Details of level:", level)
+    const dialogRef = this.dialog.open(LevelDetailsComponent,{
+      data: level
+    });
+
   }
 
 }

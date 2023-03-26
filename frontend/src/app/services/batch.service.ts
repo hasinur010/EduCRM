@@ -3,24 +3,25 @@ import { AngularFireDatabase, AngularFireList, SnapshotAction } from '@angular/f
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Level } from '../models/Level';
+import { Batch } from '../models/Batch';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LevelService {
-  private levelRef$: AngularFireList<Level>
-  levels$: Observable<Level[]>;
+export class BatchService {
+
+  private levelRef$: AngularFireList<Batch>
+  levels$: Observable<Batch[]>;
 
   constructor(private db: AngularFireDatabase) { 
-    this.levelRef$ = this.db.list<Level>(Level.name)
+    this.levelRef$ = this.db.list<Batch>(Batch.name)
     this.levels$ = this.levelRef$.snapshotChanges().pipe(
-      map((actions: SnapshotAction<Level>[]) =>
-        actions.map((a: SnapshotAction<Level>) => {
+      map((actions: SnapshotAction<Batch>[]) =>
+        actions.map((a: SnapshotAction<Batch>) => {
           const key = a.payload.key;
           const data = a.payload.val();
           console.log(key)
-          return {  ...data, key } as Level;
+          return {  ...data, key } as Batch;
         })
       ),
       map(items => items.reverse())
@@ -28,7 +29,7 @@ export class LevelService {
   }
 
 
-  create(level: Level): Promise<void>{
+  create(level: Batch): Promise<void>{
     console.log('create Level: ', level)
     return this.levelRef$.push(level).then(
       () => {
@@ -41,11 +42,11 @@ export class LevelService {
     );
   }
 
-  getAll(): Observable<Level[]>{
+  getAll(): Observable<Batch[]>{
      return this.levels$;
   }
 
-  update(level: Level): void {
+  update(level: Batch): void {
     if (level.key != undefined){
       this.levelRef$.update(level.key, level).then(
         ()=> {

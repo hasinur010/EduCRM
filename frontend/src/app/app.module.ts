@@ -41,6 +41,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LevelComponent } from './level/level.component';
 import { AddLevelModalComponent } from './level/add-level-modal/add-level-modal.component';
+import { LevelDetailsComponent } from './level/level-details/level-details.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { AddLevelModalComponent } from './level/add-level-modal/add-level-modal.
     LoginComponent,
     RegistrationComponent,
     LevelComponent,
-    AddLevelModalComponent
+    AddLevelModalComponent,
+    LevelDetailsComponent
   ],
   imports: [
     BrowserModule,
