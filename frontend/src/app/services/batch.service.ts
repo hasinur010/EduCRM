@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Batch } from '../models/Batch';
+import { Student } from '../models/Student';
 
 @Injectable({
   providedIn: 'root'
@@ -29,26 +30,35 @@ export class BatchService {
   }
 
 
-  create(level: Batch): Promise<void>{
-    console.log('create Level: ', level)
-    return this.levelRef$.push(level).then(
-      () => {
-        console.log('Level added successfully');
-      }
-    ).catch(
-      (error) => {
-        console.log('Error adding Level:', error);
-      }
-    );
+  create(batch: Batch){
+    console.log('create batch: ', batch)
+    const itemRef = this.levelRef$.push(batch)
+    batch.key = itemRef.key!
   }
 
   getAll(): Observable<Batch[]>{
      return this.levels$;
   }
 
-  update(level: Batch): void {
-    if (level.key != undefined){
-      this.levelRef$.update(level.key, level).then(
+  getAllForKeys(keys:string[]): Observable<Batch[]>{
+    //batch => level.batches.includes(batch.key)
+    console.log("find batches for keys: ", keys)
+    return this.levels$.pipe(map(batches => batches.filter(batch =>  keys.includes(batch.key))))
+  }
+
+  getIndex(i: number): Observable<Batch> {
+    return this.levels$.pipe(map(levels => levels[0]));
+  }
+
+  getForKey(key: string): Observable<Batch | undefined>{
+    
+    return this.levels$.pipe(map(levels => levels.find(level => level.key === key) ));
+  }
+
+  update(batch: Batch): void {
+    console.log("Request update batch: ", batch)
+    if (batch.key != undefined){
+      this.levelRef$.update(batch.key, batch).then(
         ()=> {
           console.log('level updated successfully');
         }

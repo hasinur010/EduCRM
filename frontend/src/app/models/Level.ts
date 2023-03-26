@@ -6,7 +6,7 @@ export class Level{
     constructor(levelNO: string, batches?: string[], key?: string){
         this.key = key ? key : "unknown";
         this.levelNO = levelNO;
-        this.batches = batches? batches : ["Hello"];
+        this.batches = batches? batches : ["unknown"];
     }
 
 }

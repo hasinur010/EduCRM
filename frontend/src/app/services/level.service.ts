@@ -28,21 +28,22 @@ export class LevelService {
   }
 
 
-  create(level: Level): Promise<void>{
-    console.log('create Level: ', level)
-    return this.levelRef$.push(level).then(
-      () => {
-        console.log('Level added successfully');
-      }
-    ).catch(
-      (error) => {
-        console.log('Error adding Level:', error);
-      }
-    );
+  create(level: Level){
+    console.log('create level: ', level)
+    const itemRef = this.levelRef$.push(level)
+    level.key = itemRef.key!
   }
 
   getAll(): Observable<Level[]>{
      return this.levels$;
+  }
+
+  getIndex(i: number): Observable<Level> {
+    return this.levels$.pipe(map(levels => levels[0]));
+  }
+
+  getForKey(key: string): Observable<Level | undefined>{
+    return this.levels$.pipe(map(levels => levels.find(level => level.key === key) ));
   }
 
   update(level: Level): void {

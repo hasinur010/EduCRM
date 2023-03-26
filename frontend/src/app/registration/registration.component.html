@@ -1,83 +1,85 @@
-<mat-grid-list cols="1" rowHeight="100vh" >
-    <mat-grid-tile >
-        <mat-stepper [linear]="false" #stepper class="form-container" style="height: 100%; width: 70%;">
-            <mat-step [stepControl]="registrationForm">
-                <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="form-container">
-                    <ng-template matStepLabel>New Student Info</ng-template>
-                    <mat-form-field appearance="fill">
-                      <input matInput formControlName="name" placeholder="Name">
-                      <mat-error *ngIf="registrationForm.controls['name'].invalid">{{getErrorMessage('name')}}</mat-error>
-                    </mat-form-field>
-                  
-                    <mat-form-field appearance="fill">
-                      <input matInput formControlName="fatherName" placeholder="Father's Name">
-                      <mat-error *ngIf="registrationForm.controls['fatherName'].invalid">{{getErrorMessage('fatherName')}}</mat-error>
-                    </mat-form-field>
-                  
-                    <mat-form-field appearance="fill">
-                      <input matInput formControlName="phoneNumber" placeholder="Phone Number">
-                      <mat-error *ngIf="registrationForm.controls['phoneNumber'].invalid">{{getErrorMessage('phoneNumber')}}</mat-error>
-                    </mat-form-field>
-                  
-                    <mat-form-field appearance="fill">
-                      <input matInput formControlName="email" placeholder="Email">
-                      <mat-error *ngIf="registrationForm.controls['email'].invalid">{{getErrorMessage('email')}}</mat-error>
-                    </mat-form-field>
-                  
-                    <mat-form-field appearance="fill">
-                      <input matInput formControlName="dateOfBirth" [matDatepicker]="picker" placeholder="Date of Birth">
-                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                      <mat-datepicker #picker></mat-datepicker>
-                      <mat-error *ngIf="registrationForm.controls['dateOfBirth'].invalid">{{getErrorMessage('dateOfBirth')}}</mat-error>
-                    </mat-form-field>
-                  
-                    <mat-form-field appearance="fill">
-                      <textarea matInput formControlName="address" placeholder="Address"></textarea>
-                      <mat-error *ngIf="registrationForm.controls['address'].invalid">{{getErrorMessage('address')}}</mat-error>
-                    </mat-form-field>
-                  
-                    <!-- <button mat-raised-button color="primary" type="submit" [disabled]="registrationForm.invalid">Submit</button> -->
-                    <div>
-                        <button mat-button matStepperNext>Next</button>
-                    </div>
-                  </form>
-            </mat-step>
-            <mat-step [stepControl]="EnrollCourseForm">
-                <form [formGroup]="EnrollCourseForm">
-                    <ng-template matStepLabel>Enroll</ng-template>
-                    <mat-form-field appearance="fill">
-                        <mat-label>Class</mat-label>
-                        <mat-select name="class" [(ngModel)]="selectedClass" required>
-                          <mat-option *ngFor="let class of classes" [value]="class">{{class}}</mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="EnrollCourseForm.controls['class'].hasError('required')">
-                          Please select a class.
-                        </mat-error>
-                      </mat-form-field>
-                    
-                      <mat-form-field appearance="fill">
-                        <mat-label>Batch</mat-label>
-                        <mat-select name="batch" [(ngModel)]="selectedBatch" required>
-                          <mat-option *ngFor="let batch of batches" [value]="batch">{{batch}}</mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="EnrollCourseForm.controls['batch'].hasError('required')">
-                          Please select a batch.
-                        </mat-error>
-                      </mat-form-field>
-                </form>
-            </mat-step>
-            <mat-step>
-                <ng-template matStepLabel>Done</ng-template>
-                <p>You are now done.</p>
-                <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button (click)="stepper.reset()">Reset</button>
-                </div>
-            </mat-step>
-        </mat-stepper>
-    </mat-grid-tile>
-  </mat-grid-list>
+<mat-grid-list cols="1" rowHeight="100vh">
+  <mat-grid-tile>
+    <mat-stepper [linear]="true" #stepper class="form-container" style="height: 100%; width: 70%;">
+      <mat-step [stepControl]="registrationForm">
+        <form [formGroup]="registrationForm" class="form-container">
+          <ng-template matStepLabel>New Student Info</ng-template>
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="name" placeholder="Name">
+            <mat-error *ngIf="registrationForm.controls['name'].invalid">{{getErrorMessage('name')}}</mat-error>
+          </mat-form-field>
 
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="fatherName" placeholder="Father's Name">
+            <mat-error *ngIf="registrationForm.controls['fatherName'].invalid">{{getErrorMessage('fatherName')}}
+            </mat-error>
+          </mat-form-field>
 
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="phoneNumber" placeholder="Phone Number">
+            <mat-error *ngIf="registrationForm.controls['phoneNumber'].invalid">{{getErrorMessage('phoneNumber')}}
+            </mat-error>
+          </mat-form-field>
 
-  
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="email" placeholder="Email">
+            <mat-error *ngIf="registrationForm.controls['email'].invalid">{{getErrorMessage('email')}}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="dateOfBirth" [matDatepicker]="picker" placeholder="Date of Birth">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="registrationForm.controls['dateOfBirth'].invalid">{{getErrorMessage('dateOfBirth')}}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <textarea matInput formControlName="address" placeholder="Address"></textarea>
+            <mat-error *ngIf="registrationForm.controls['address'].invalid">{{getErrorMessage('address')}}</mat-error>
+          </mat-form-field>
+
+          <!-- <button mat-raised-button color="primary" type="submit" [disabled]="registrationForm.invalid">Submit</button> -->
+          <div>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="EnrollCourseForm">
+        <form [formGroup]="EnrollCourseForm" class="form-container">
+          <ng-template matStepLabel>Enroll</ng-template>
+          <mat-form-field appearance="fill">
+            <mat-label>Class</mat-label>
+            <mat-select formControlName="class" (selectionChange)="onLevelChange($event.value)" required>
+              <mat-option *ngFor="let level of levels | async" [value]="level">{{level.levelNO}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="EnrollCourseForm.controls['class'].hasError('required')">
+              Please select a class.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Batch</mat-label>
+            <mat-select formControlName="batch" (selectionChange)="onBatchChange($event.value)" required>
+              <mat-option *ngFor="let batch of batches | async " [value]="batch">{{batch.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="EnrollCourseForm.controls['batch'].hasError('required')">
+              Please select a batch.
+            </mat-error>
+          </mat-form-field> 
+          <div>
+            <button mat-button (click)="onSubmit()" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        <p>You are now done.</p>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="stepper.reset()">Reset</button>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </mat-grid-tile>
+</mat-grid-list>

@@ -1,6 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { MatStepper } from '@angular/material/stepper';
+
 import { Student } from '../models/Student';
+import { Level } from '../models/Level';
+import { Batch } from '../models/Batch';
+import { BatchService } from '../services/batch.service';
+import { LevelService } from '../services/level.service';
 import { StudentService } from '../student.service';
 
 @Component({
@@ -9,46 +17,36 @@ import { StudentService } from '../student.service';
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
-
+  // @ViewChild('stepper') stepper!: MatStepper;
   registrationForm : FormGroup 
   EnrollCourseForm: FormGroup
 
-  classes: string[] = [
-    'Class 1',
-    'Class 2',
-    'Class 3',
-    'Class 4',
-    'Class 5',
-  ];
+  levels: Observable<Level[]>;
+  batches: Observable<Batch[]>;
+
   
-  batches: string[] = [
-    'Batch A',
-    'Batch B',
-    'Batch C',
-    'Batch D',
-    'Batch E',
-  ];
-
-  selectedClass: string
-  selectedBatch: string
-
-  constructor(private formBuilder: FormBuilder, private studentService: StudentService) { 
+  constructor(
+    private formBuilder: FormBuilder, 
+    private studentService: StudentService,
+    private levelService: LevelService,
+    private batchService: BatchService
+    ) { 
     this.registrationForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      fatherName: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      email: ['', [Validators.required, Validators.email]],
-      dateOfBirth: ['', [Validators.required]],
-      address: ['', [Validators.required]]
+      name: ['Hasinur', [Validators.required]],
+      fatherName: ['Habibur', [Validators.required]],
+      phoneNumber: ['01701617431', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      email: ['hasinur010@gmail.com', [Validators.required, Validators.email]],
+      dateOfBirth: ['3/21/2023', [Validators.required]],
+      address: ['Dhaka, Bangladesh', [Validators.required]]
     });
 
+    this.levels = this.levelService.getAll()
+    this.batches = this.batchService.getAll()
+    
     this.EnrollCourseForm = this.formBuilder.group({
-      class: ['', Validators.required],
-      batch: ['', Validators.required]
+      class: ['', [Validators.required]],
+      batch: ['', [Validators.required]]
     });
-
-    this.selectedClass = this.classes[0]
-    this.selectedBatch = this.batches[0]
   }
 
   getErrorMessage(field: string) {
@@ -71,10 +69,41 @@ export class RegistrationComponent implements OnInit {
     console.log('Registration: component initiated')
   }
   onSubmit(): void{
+    
     const { name, fatherName, phoneNumber, email, dateOfBirth, address } = this.registrationForm.value;
+    const { _ , batch}  = this.EnrollCourseForm.value
     const student = new Student(name, fatherName, phoneNumber, email, dateOfBirth, address);
-    this.studentService.add(student)
-    console.log('Registration for student: ', student)
+
+    const batchConv = batch as Batch
+
+    this.studentService.create(student)
+    console.log("created student: ", student)
+    console.log("attach student to batch: ", batchConv, "type: ", typeof(batchConv))
+    batchConv.students.push(student.key)
+    this.batchService.update(batchConv)
   }
+
+  onLevelChange(level: Level){
+    this.batches = this.batchService.getAllForKeys(level.batches)
+    
+    this.batches.subscribe((batches: Batch[]) => {
+      console.log("updated batches: ", batches)
+    })
+  }
+
+  onBatchChange(batch: Batch){
+    batch.students = []
+    console.log("Reg: batch changed to: ",)
+  }
+
+  getLevels(): Observable<Level[]>{
+    return this.levelService.getAll();
+  }
+
+  getBatch(forKey: string): Observable<Batch | undefined>{
+    return this.batchService.getForKey(forKey)
+  }
+
+
 
 }

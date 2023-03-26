@@ -1,5 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { Level } from 'src/app/models/Level';
 import { MatSelectChange } from '@angular/material/select';
 import { BatchService } from 'src/app/services/batch.service';
@@ -16,6 +19,8 @@ import { Batch } from 'src/app/models/Batch';
 })
 export class LevelDetailsComponent implements OnInit {
   level: Level
+  batches: Batch[] = []
+  
   constructor(
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<LevelDetailsComponent>,
@@ -24,6 +29,12 @@ export class LevelDetailsComponent implements OnInit {
     private levelService: LevelService
   ) {
     this.level = data
+    this.batchService.getAllForKeys(this.level.batches).subscribe(
+      batches => {
+        this.batches = batches
+        console.log("initial batches loaded: ", this.level.batches)
+      }
+    )
   }
 
   ngOnInit(): void {
@@ -39,7 +50,7 @@ export class LevelDetailsComponent implements OnInit {
         if(result != null){
           const batch = new Batch(result)
           this.batchService.create(batch)
-          this.level.batches.push(batch.name)
+          this.level.batches.push(batch.key)
           this.levelService.update(this.level)
         }
       });
