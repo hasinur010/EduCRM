@@ -17,6 +17,8 @@ import {MatCardModule} from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import {MatTabsModule} from '@angular/material/tabs';
 
+import {MatTableModule} from '@angular/material/table';
+
 
 
 
@@ -72,6 +74,7 @@ import { LevelDetailsComponent } from './level/level-details/level-details.compo
     MatCardModule,
     MatDividerModule,
     MatTabsModule,
+    MatTableModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),

@@ -10,6 +10,8 @@ import { LevelService } from 'src/app/services/level.service';
 
 import { AddLevelModalComponent } from '../add-level-modal/add-level-modal.component';
 import { Batch } from 'src/app/models/Batch';
+import { Student } from 'src/app/models/Student';
+import { StudentService } from 'src/app/student.service';
 
 
 @Component({
@@ -20,13 +22,18 @@ import { Batch } from 'src/app/models/Batch';
 export class LevelDetailsComponent implements OnInit {
   level: Level
   batches: Batch[] = []
+
+  selectedBatch: Batch = new Batch("Empty")
+  allStudents: Student[] = [new Student("","","","",new Date(),"","")]
+  displayedColumns: string[] = ['name', 'fatherName', 'email', 'phoneNumber']
   
   constructor(
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<LevelDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Level, 
     private batchService: BatchService,
-    private levelService: LevelService
+    private levelService: LevelService,
+    private studentService: StudentService
   ) {
     this.level = data
     this.batchService.getAllForKeys(this.level.batches).subscribe(
@@ -55,8 +62,23 @@ export class LevelDetailsComponent implements OnInit {
         }
       });
     }else{
-      console.log("Batch selected to: ", event.value)
+      this.batchService.getAllForKeys([event.value]).subscribe(
+        batches => {
+          this.selectedBatch = batches[0]
+          this.setAllStudents()
+          console.log("Batch selected to: ", this.selectedBatch)
+        }
+      )
+      
     }
+  }
+
+  setAllStudents(){
+    this.studentService.getAllForKeys(this.selectedBatch.students).subscribe(
+      students => {
+        this.allStudents = students
+      }
+    );
   }
 
   onCancel(): void{

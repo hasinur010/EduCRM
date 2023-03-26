@@ -24,6 +24,7 @@ export class RegistrationComponent implements OnInit {
   levels: Observable<Level[]>;
   batches: Observable<Batch[]>;
 
+  selectedBatch: Batch = new Batch("Empty")
   
   constructor(
     private formBuilder: FormBuilder, 
@@ -71,16 +72,14 @@ export class RegistrationComponent implements OnInit {
   onSubmit(): void{
     
     const { name, fatherName, phoneNumber, email, dateOfBirth, address } = this.registrationForm.value;
-    const { _ , batch}  = this.EnrollCourseForm.value
     const student = new Student(name, fatherName, phoneNumber, email, dateOfBirth, address);
-
-    const batchConv = batch as Batch
 
     this.studentService.create(student)
     console.log("created student: ", student)
-    console.log("attach student to batch: ", batchConv, "type: ", typeof(batchConv))
-    batchConv.students.push(student.key)
-    this.batchService.update(batchConv)
+    
+    this.selectedBatch.students.push(student.key)
+    console.log("attach student to batch: ", this.selectedBatch, "type: ", typeof(this.selectedBatch))
+    this.batchService.update(this.selectedBatch)
   }
 
   onLevelChange(level: Level){
@@ -92,8 +91,8 @@ export class RegistrationComponent implements OnInit {
   }
 
   onBatchChange(batch: Batch){
-    batch.students = []
-    console.log("Reg: batch changed to: ",)
+    this.selectedBatch = batch
+    console.log("Reg: batch changed to: ", batch)
   }
 
   getLevels(): Observable<Level[]>{
