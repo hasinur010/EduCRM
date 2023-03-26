@@ -12,6 +12,10 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatCardModule} from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import {MatTabsModule} from '@angular/material/tabs';
+
 
 
 
@@ -62,6 +66,9 @@ import { AddLevelModalComponent } from './level/add-level-modal/add-level-modal.
     MatSelectModule,
     MatGridListModule,
     MatDialogModule,
+    MatCardModule,
+    MatDividerModule,
+    MatTabsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),

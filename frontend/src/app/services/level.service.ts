@@ -21,7 +21,8 @@ export class LevelService {
           const data = a.payload.val();
           return { key, ...data } as Level;
         })
-      )
+      ),
+      map(items => items.reverse())
     );
   }
 
